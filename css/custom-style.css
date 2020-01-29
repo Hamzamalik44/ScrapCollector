@@ -1,0 +1,10 @@
+.error:not(.box){
+	color:red;
+	font-weight: 500;
+}
+
+a{
+	cursor: pointer;
+}
+
+.
