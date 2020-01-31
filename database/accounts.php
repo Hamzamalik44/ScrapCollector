@@ -129,13 +129,13 @@ if(isset($_POST['editCollctorButton'])){
 
 //   get all collectors
 function getAllCollectors(){
-	$result  = mysqli_query(dbConnection(),"select *from  user_with_role where role = 'Scrap collector'");
+	$result  = mysqli_query(dbConnection(),"select *from  user_with_role where roleName = 'Scrap collector' ");
 	return $result;
 }
 
 //   get all collectors
 function getLimitedCollectors($start,$end){
-	$result  = mysqli_query(dbConnection(),"select *from  user_with_role where role = 'Scrap collector' limit $start,$end");
+	$result  = mysqli_query(dbConnection(),"select *from  user_with_role where roleName = 'Scrap collector' limit $start,$end");
 	return $result;
 }
 

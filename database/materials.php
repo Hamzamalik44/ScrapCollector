@@ -111,6 +111,26 @@ if (isset($_GET['delete'])) {
 
 }
 
+//   get material types by id
+function getAllMaterialByIdAjax($post){
+
+	$id = $post['id'];
+
+	$result = mysqli_query(dbConnection(),"select *from scrap_items where itemTypeId= '$id'");
+
+	$html = '';
+
+	foreach ($result as $value) {
+		
+    $html .= '<option value='.$value['id'].' >'.$value['name'].'</option>';
+    
+	}
+	
+	echo json_encode(['status'=>'success','html'=>$html]);
+
+
+}
+
 
 ?>
 

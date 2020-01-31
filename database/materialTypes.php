@@ -97,6 +97,7 @@ if(checkUniqueMaterialType($name)){
 
 if (isset($_GET['delete'])) {
 	 $id = $_GET['delete'];
+	         mysqli_query(dbConnection(),"delete from scrap_items where itemTypeId = '$id'");
     $result= mysqli_query(dbConnection(),"delete from item_types where id = '$id'");
 
     if($result){

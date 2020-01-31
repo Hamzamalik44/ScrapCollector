@@ -3,8 +3,8 @@
   require_once 'includes/header.php';
 
 // get all collectors 
-require_once 'database/accounts.php';
- $totalRecord =  getAllCollectors();
+require_once 'database/appointments.php';
+ $totalRecord =  getAppointmentsById($userData['id']);
 
  $resultPerPage  =  5;
  $numberOfResult =  mysqli_num_rows($totalRecord);
@@ -19,7 +19,7 @@ require_once 'database/accounts.php';
 
  $startingPageNo = ($page-1)*$resultPerPage;
 
- $data = getLimitedCollectors($startingPageNo,$resultPerPage);
+ $data = getLimitedAppintments($startingPageNo,$resultPerPage,$userData['id']);
  ?>
         <!--**********************************
             Content body start
@@ -29,7 +29,7 @@ require_once 'database/accounts.php';
                 <div class="col p-md-0">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                        <li class="breadcrumb-item active"><a href="collectors.php">Collectors</a></li>
+                        <li class="breadcrumb-item active"><a href="collectorAppointments.php">Appointments</a></li>
                     </ol>
                 </div>
             </div>
@@ -37,18 +37,18 @@ require_once 'database/accounts.php';
             <div class="container-fluid ">
                       <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Collectors List 
-                                    <a href="addCollector.php" class="btn mb-1 btn-primary float-right">Add New</a> </h4>
+                                <h4 class="card-title">Appointments
+                                     </h4>
                                     <br>
                                     <hr>
                                 <div class="table-responsive">
                                     <table class="table header-border ">
                                         <thead>
                                             <tr>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Eamil</th>
+                                                <th>Date</th>
+                                                <th>Name</th>
                                                 <th>Address</th>
+                                                <th>Status</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
@@ -56,16 +56,15 @@ require_once 'database/accounts.php';
                                             <?php if(mysqli_num_rows($data)>0){foreach ($data as $value) { ?>
                                 
                                             <tr>
+                                                <td><?php echo $value['date']; ?>
                                                 <td><?php echo $value['firstName']; ?>
+                                                <td><?php echo $value['address']; ?>
+                                                <td><span class="label gradient-<?php echo ($value['status']=="Pending")?2:1 ?> rounded"><?php echo $value['status']; ?></span>
                                                 </td>
-                                                <td><?php echo $value['lastName']; ?></td>
-                                                <td><span class="text-muted"><?php echo $value['email']; ?></span>
                                                 </td>
-
-                                                </td>
-                                                <td><?php echo $value['address']; ?></td>
-                                                <td><a href="editCollector.php?edit=<?php echo $value['id']; ?>" class="btn mb-1 btn-sm btn-outline-info">Edit</a>
-                                                    <a href="#" onclick="deleteCollector(<?php echo $value['id']; ?>)" class="btn mb-1 btn-sm btn-outline-danger">Delete</a>
+                                                
+                                                <td><a href="startCollecting.php?userId=<?php echo $value['userId']; ?>" class="btn mb-1 btn-sm btn-outline-success">Stat Collecting</a>
+                                                    
                                                 </td>
                                             </tr>
                                            
@@ -86,14 +85,14 @@ require_once 'database/accounts.php';
 
                                             
 
-                                            <li class="page-item <?php echo ($_GET['page']==1)?'disabled':'' ?>"><a class="page-link" href="collectors.php?page=<?php echo $_GET['page']-1 ?>" tabindex="-1">Previous</a>
+                                            <li class="page-item <?php echo ($_GET['page']==1)?'disabled':'' ?>"><a class="page-link" href="collectorAppointments.php?page=<?php echo $_GET['page']-1 ?>" tabindex="-1">Previous</a>
                                             </li>
                                             <?php for ($page=1; $page<=$numberOfPages ;$page++) { ?>
                                             <li class="page-item <?php echo ($_GET['page']==$page)?'active':'' ?>">
-                                                <a class="page-link" href="collectors.php?page=<?php echo $page ?>"><?php echo $page ?></a>
+                                                <a class="page-link" href="collectorAppointments.php?page=<?php echo $page ?>"><?php echo $page ?></a>
                                             </li>
                                             <?php } ?>
-                                            <li class="page-item <?php echo ($_GET['page']==$page-1)?'disabled':'' ?>"><a class="page-link" href="collectors.php?page=<?php echo $_GET['page']+1 ?>">Next</a>
+                                            <li class="page-item <?php echo ($_GET['page']==$page-1)?'disabled':'' ?>"><a class="page-link" href="collectorAppointments.php?page=<?php echo $_GET['page']+1 ?>">Next</a>
                                             </li>
                                             
                                         </ul>
@@ -143,7 +142,7 @@ function deleteCollector(id){
     }).then(function(isConfirm) {
       if (isConfirm) {
 
-        window.location.href="database/accounts.php?delete="+id;
+        window.location.href="database/materials.php?delete="+id;
 
       } else {
         swal("Cancelled", "Your imaginary file is safe :)", "error");

@@ -35,6 +35,16 @@ SELECT *from user_with_role;
 
 
 
+DROP VIEW appointments_with_status;
+CREATE VIEW appointments_with_status
+as 
+SELECT a.id,a.date,a.userId,a.collectorId,s.name as status,u.firstName,u.address from appointments a
+JOIN status s
+on a.status = s.id
+JOIN users u 
+on u.id = a.userId;
+
+
 CREATE TABLE item_types(
     id    int PRIMARY KEY AUTO_INCREMENT,
     name  varchar(50) 

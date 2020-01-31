@@ -202,16 +202,33 @@ require_once 'userData.php';
 
                     </li>
                     <li>
-                        <a class="" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
+                        <a class="" href="appointments.php" aria-expanded="false">
+                            <i class="fa fa-calendar menu-icon"></i><span class="nav-text">Appointment</span>
                         </a>
 
                     </li>
+                    <li>
+                        <a class="" href="collectorAppointments.php" aria-expanded="false">
+                            <i class="fa fa-calendar menu-icon"></i><span class="nav-text">Appointments</span>
+                        </a>
 
+                    </li>
+                      <li>
+                        <a class="" href="adminAppointments.php" aria-expanded="false">
+                            <i class="fa fa-calendar menu-icon"></i><span class="nav-text">Appointments</span>
+                        </a>
 
-
-
-
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon-envelope menu-icon"></i> <span class="nav-text">Reports</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="./email-inbox.html">Selling's</a></li>
+                             <li><a href="./email-inbox.html">User's</a></li>
+                              <li><a href="./email-inbox.html">Collector's</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
