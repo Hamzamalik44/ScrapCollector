@@ -45,5 +45,3 @@
     <script src="./plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
     <script src="./js/dashboard/dashboard-1.js"></script>
 
-
-

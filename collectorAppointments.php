@@ -118,6 +118,8 @@ require_once 'database/appointments.php';
   require_once 'includes/footer.php';
  ?>
 
+
+
  <script>
 function done(){
 
@@ -156,6 +158,9 @@ function deleteCollector(id){
 done();
 
 <?php unset($_SESSION['success']);  }?>    
+
+
+
 
 
 </script>

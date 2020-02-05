@@ -118,15 +118,19 @@ function getAllMaterialByIdAjax($post){
 
 	$result = mysqli_query(dbConnection(),"select *from scrap_items where itemTypeId= '$id'");
 
+	$firstrow = mysqli_fetch_assoc($result);
+
 	$html = '';
 
 	foreach ($result as $value) {
 		
-    $html .= '<option value='.$value['id'].' >'.$value['name'].'</option>';
+    $html .= '<option price='.$value['price'].' value='.$value['id'].' material-name='.$value['name'].' >'.$value['name'].'</option>';
     
 	}
+
 	
-	echo json_encode(['status'=>'success','html'=>$html]);
+
+	echo json_encode(['status'=>'success','html'=>$html,'firstOption'=>$firstrow['name']]);
 
 
 }

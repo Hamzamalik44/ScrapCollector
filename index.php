@@ -1371,5 +1371,4 @@ document.getElementById("#signup-form").reset();
 
 <?php unset($_SESSION['success']);  }?>    
 
-
 </script>

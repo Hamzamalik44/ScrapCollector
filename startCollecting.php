@@ -8,7 +8,9 @@
 
 if(isset($_GET['userId'])){
 
-    $userId = $_GET['userId'];
+    $_SESSION['userId'] = $_GET['userId'];
+
+
 }
  ?>
 
@@ -30,14 +32,14 @@ if(isset($_GET['userId'])){
 
                 <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Collecting <?php  ?> </h4>
+                                <h4 class="card-title">Collecting  </h4>
                                 <br>
-                                    <form class="form-valide " action="database/appointments.php" method="post" id="signup-form">
+                                    <form class="form-valide " action="addToCart.php" method="post" id="signup-form">
                                        
                                       <input type="hidden" name="userId" value="<?php echo $userId; ?>">
                                         <div class="form-group row">
                                             <label class="col-lg-2 col-form-label">Material Type</label>
-                                            <div class="col-lg-3">
+                                            <div class="col-lg-2">
                                                 <select class="form-control rounded" id="materialTypes" name="materialTypes">
                                                     <?php  $materialTypes = getAllMaterialTypes(); ?>
                                                     <?php  foreach ($materialTypes as $value) { ?>
@@ -45,35 +47,103 @@ if(isset($_GET['userId'])){
                                                     <?php } ?>
                                                 </select>
                                             </div>
-                                            <label class="col-lg-2 col-form-label">Material</label>
-                                            <div class="col-lg-3">
-                                                <select class="form-control rounded" id="material" name="material">
+                                            <label class="col-lg-1 col-form-label">Material</label>
+                                            <div class="col-lg-2">
+                                                <input type="hidden" id="materialName" name="materialName" value="">
+                                                <select class="form-control rounded" id="material" name="material" >
 
-                                                </select>
+                                                </select> 
+                                            </div>
+                                             <label class="col-lg-2 col-form-label">Weight in Kg</label>
+                                            <div class="col-lg-3 ">
+                                                
+                                                <input type="text" class="form-control rounded" id="weight" name="weight">
                                             </div>
                                             
                                         </div>
 
                                         <div class="form-group row">
-                                            <label class="col-lg-2 col-form-label">Weight in Kg</label>
-                                            <div class="col-lg-3 ">
-                                                
-                                                <input type="text" class="form-control rounded" name="Weight">
-                                            </div>
+                                           
                                             
-                                            <label class="col-lg-2 col-form-label">Price</label>
-                                            <div class="col-lg-3 ">
-                                                
-                                                <input type="text" class="form-control rounded" readonly name="price">
+                                            <label class="col-lg-2 col-form-label">Price Per Kg</label>
+                                            <div class="col-lg-3">
+                                                <input type="text" class="form-control rounded" id="uintPrice" name="uintPrice" readonly>
                                             </div>
 
-                                            <div class="col-lg-2 ">
-                                                <button type="submit" name="assignAppointmentButton" class="btn form-control rounded btn-primary">Add </button>
+                                            <label class="col-lg-1 col-form-label">Price</label>
+                                            <div class="col-lg-3 ">
+                                                
+                                                <input type="text" class="form-control rounded" readonly id="price" name="price">
+                                            </div>
+
+                                            <div class="col-lg-3 ">
+                                                <button type="submit" name="addToCartButton" class="btn form-control rounded btn-primary">Add</button>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
                             </div>
+
+<?php if(@count($_SESSION['cardData'])>0){ ?>
+                              <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table header-border ">
+                                        <thead>
+                                            <tr>
+                                                <th>Material</th>
+                                                <th>Weight</th>
+                                                <th>Price Per Kg</th>
+                                                <th>Total Price</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                          
+                                          <?php   for ($i=0; $i < count($_SESSION['cardData']); $i++) { ?>
+                                                            <tr>
+                                          <?php            $data =  $_SESSION['cardData'][$i];  ?>
+
+                                                            
+                                                            <td><?php echo $data['materialName'];?></td>
+                                                            <td><?php echo $data['weight'];?></td>
+                                                            <td><?php echo $data['pricePerKg'];?></td>
+                                                            <td><?php echo $data['price'];?></td>
+                                                            <td><a href="addToCart.php?remove=<?php echo $data['materialName'];?>"  class="btn mb-1 btn-sm btn-outline-danger">Remove</a></td>
+                                                            
+                                                            </tr>
+                                          <?php } ?>
+
+                                         
+                                        </tbody>        
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                               
+                               <div class="row">
+                                <div class="col-5"></div>
+                                   <div class="col-4" style="font-size: 16px;">
+                                       <p><b>Total Amount : Rs. </b><?php echo $_SESSION['totalAmmount']; ?></p>
+                                   </div>
+
+                               
+
+                                    <a href="database/collectedScrap.php?collect=<?php echo $_SESSION['totalAmmount']; ?>" name="collectedScrapButton" class="btn mb-1 btn-md col-3  btn-success rounded" style="color: white;font-size:16px;  ">Collect</a>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    <?php } ?>
                         </div>
             <!-- #/ container -->
         </div>

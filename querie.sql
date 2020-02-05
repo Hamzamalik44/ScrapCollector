@@ -45,6 +45,16 @@ JOIN users u
 on u.id = a.userId;
 
 
+DROP view user_report;
+CREATE VIEW user_report 
+as 
+SELECT u.id as UserId ,c.date ,u.firstName,u.lastName,u.address,SUM(weight) as totalWeight ,SUM(weight*price) as totalAmount
+FROM collected_scrap c 
+JOIN users u ON
+u.id = c.userId
+GROUP BY c.userId;
+
+
 CREATE TABLE item_types(
     id    int PRIMARY KEY AUTO_INCREMENT,
     name  varchar(50) 

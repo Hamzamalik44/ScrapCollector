@@ -9,7 +9,7 @@ require_once 'userData.php';
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Quixlab - Bootstrap Admin Dashboard Template by Themefisher.com</title>
+    <title>Scrap Collector</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="assets/img/logo.png">
     <!-- Pignose Calender -->
@@ -17,8 +17,26 @@ require_once 'userData.php';
     <!-- Chartist -->
     <link rel="stylesheet" href="./plugins/chartist/css/chartist.min.css">
     <link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+
+        <!-- Custom Stylesheet -->
+    <link href="./plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
+    <!-- Page plugins css -->
+    <link href="./plugins/clockpicker/dist/jquery-clockpicker.min.css" rel="stylesheet">
+    <!-- Color picker plugins css -->
+    <link href="./plugins/jquery-asColorPicker-master/css/asColorPicker.css" rel="stylesheet">
+    <!-- Date picker plugins css -->
+    <link href="./plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
+    <!-- Daterange picker plugins css -->
+    <link href="./plugins/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+    <link href="./plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <link href="./plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
+
     <!-- Custom Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+
+
+
 
     <style>
         .error{
@@ -221,12 +239,12 @@ require_once 'userData.php';
                     </li>
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-envelope menu-icon"></i> <span class="nav-text">Reports</span>
+                            <i class="fa fa-file menu-icon"></i> <span class="nav-text">Reports</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="./email-inbox.html">Selling's</a></li>
-                             <li><a href="./email-inbox.html">User's</a></li>
-                              <li><a href="./email-inbox.html">Collector's</a></li>
+                            <li><a href="userSellingReport.php">Selling's</a></li>
+                             <li><a href="userReport.php">User's</a></li>
+                              <li><a href="collectorReport.php">Collector's</a></li>
                         </ul>
                     </li>
                 </ul>

@@ -20,7 +20,7 @@ if(isset($_POST['confirmBookButton'])){
 
 //   get appointment id
 function getUserById($id){
-	$result  = mysqli_query(dbConnection(),"select *from  appointments_with_status where userId = '$id'");
+	$result  = mysqli_query(dbConnection(),"select *from  appointments_with_status where userId = '$id'and status !='done'");
 	return $result;
 }
 
@@ -89,7 +89,7 @@ function getAllStatus(){
 //   get limited appointments
 function getLimitedAppintments($start,$end,$id){
 
-    $result = mysqli_query(dbConnection(),"select *from appointments_with_status where collectorId=50 limit $start,$end");
+    $result = mysqli_query(dbConnection(),"select *from appointments_with_status where collectorId='$id' and status='In process' limit $start,$end");
     return $result;
 }
 
@@ -101,7 +101,7 @@ if(isset($_POST['assignAppointmentButton'])){
     $userId      = $_POST['userId'];
 
 
-       $result  = mysqli_query(dbConnection(),"update appointments set collectorId ='$collectorId',status=2 where userId = '$userId' ");
+       $result  = mysqli_query(dbConnection(),"update appointments set collectorId ='$collectorId',status=2 where userId = '$userId'and status=1 ");
     
     if($result)
     {  
@@ -115,7 +115,7 @@ if(isset($_POST['assignAppointmentButton'])){
 //   get all appointments by id
 function getAppointmentsById($id){
 
-    $result = mysqli_query(dbConnection(),"select *from appointments_with_status where collectorId= '$id'");
+    $result = mysqli_query(dbConnection(),"select *from appointments_with_status where collectorId= '$id' and status='In process'");
     return $result;
 }
 
