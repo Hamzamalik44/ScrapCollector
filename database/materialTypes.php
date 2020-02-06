@@ -9,7 +9,7 @@ if(isset($_POST['addMaterialTypeButton'])){
 
 	if(checkUniqueMaterialType($name)){
 
-		$result = mysqli_query(dbConnection(),"insert into item_types values(default,'$name');");
+		$result = mysqli_query(dbConnection(),"insert into item_types values(default,'$name',default);");
 
 			if($result){
 				session_start();
@@ -33,14 +33,14 @@ if(isset($_POST['addMaterialTypeButton'])){
 //   get all material types
 function getAllMaterialTypes(){
 
-	$result = mysqli_query(dbConnection(),"select *from item_types");
+	$result = mysqli_query(dbConnection(),"select *from item_types where status = 1");
 	return $result;
 }
 //  get limited types
 
 function getLimitedTypes($start,$end){
 
-	$result = mysqli_query(dbConnection(),"select *from item_types limit $start,$end");
+	$result = mysqli_query(dbConnection(),"select *from item_types where status = 1 limit $start,$end");
 	return $result;
 }
 //   get material types by id
@@ -54,7 +54,7 @@ function getAllMaterialTypeById($id){
 //    check unique type
 function checkUniqueMaterialType($name){
 
-	$result = mysqli_query(dbConnection(),"select *from item_types where name = '$name'");
+	$result = mysqli_query(dbConnection(),"select *from item_types where name = '$name' and status = 1");
 	$emaiArray = mysqli_fetch_assoc($result);
 	if(strcasecmp($emaiArray['name'],$name)==0){
 
@@ -95,10 +95,10 @@ if(checkUniqueMaterialType($name)){
 
 //   delete material Type
 
-if (isset($_GET['delete'])) {
-	 $id = $_GET['delete'];
-	         mysqli_query(dbConnection(),"delete from scrap_items where itemTypeId = '$id'");
-    $result= mysqli_query(dbConnection(),"delete from item_types where id = '$id'");
+if (isset($_GET['deactivate'])) {
+	 $id = $_GET['deactivate'];
+
+    $result= mysqli_query(dbConnection(),"update item_types set status = 0 where id = '$id'");
 
     if($result){
     	session_start();

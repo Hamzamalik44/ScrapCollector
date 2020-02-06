@@ -11,7 +11,7 @@ if(isset($_POST['addMaterialButton'])){
 
 	if(checkUniqueMaterialType($name)){
 
-		$result = mysqli_query(dbConnection(),"insert into scrap_items values(default,'$name','$price','$typeId');");
+		$result = mysqli_query(dbConnection(),"insert into scrap_items values(default,'$name','$price','$typeId',default);");
 
 			if($result){
 				session_start();
@@ -37,21 +37,21 @@ if(isset($_POST['addMaterialButton'])){
 //   get all material types
 function getAllMaterials(){
 
-	$result = mysqli_query(dbConnection(),"select *from scrap_with_type");
+	$result = mysqli_query(dbConnection(),"select *from scrap_with_type where typeStatus = 1 and materialStatus = 1"  );
 	return $result;
 }
 
 //   get all material types
 function getAllMaterialTypes(){
 
-	$result = mysqli_query(dbConnection(),"select *from item_types");
+	$result = mysqli_query(dbConnection(),"select *from item_types where status = 1 ");
 	return $result;
 }
 //  get limited types
 
 function getLimitedMaterial($start,$end){
 
-	$result = mysqli_query(dbConnection(),"select *from scrap_with_type limit $start,$end");
+	$result = mysqli_query(dbConnection(),"select *from scrap_with_type where typeStatus = 1 and materialStatus = 1 limit $start,$end");
 	return $result;
 }
 //   get material types by id
@@ -65,7 +65,7 @@ function getAllMaterialById($id){
 //    check unique type
 function checkUniqueMaterialType($name){
 
-	$result = mysqli_query(dbConnection(),"select *from scrap_items where name = '$name'");
+	$result = mysqli_query(dbConnection(),"select *from scrap_items where name = '$name' and status = 1 ");
 	$emaiArray = mysqli_fetch_assoc($result);
 	if(strcasecmp($emaiArray['name'],$name)==0){
 
@@ -97,9 +97,9 @@ if(isset($_POST['editMaterialButton'])){
 
 //   delete material Type
 
-if (isset($_GET['delete'])) {
-	 $id = $_GET['delete'];
-    $result= mysqli_query(dbConnection(),"delete from scrap_items where id = '$id'");
+if (isset($_GET['deactivate'])) {
+	 $id = $_GET['deactivate'];
+    $result= mysqli_query(dbConnection(),"update scrap_items set status = 0 where id = '$id'");
 
     if($result){
     	session_start();
@@ -116,7 +116,7 @@ function getAllMaterialByIdAjax($post){
 
 	$id = $post['id'];
 
-	$result = mysqli_query(dbConnection(),"select *from scrap_items where itemTypeId= '$id'");
+	$result = mysqli_query(dbConnection(),"select *from scrap_items where itemTypeId= '$id' and status = 1");
 
 	$firstrow = mysqli_fetch_assoc($result);
 

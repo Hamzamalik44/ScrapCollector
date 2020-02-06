@@ -65,7 +65,7 @@ if(isset($_POST['addCollctorButton'])){
 	if(checkUniqueEmail($email)){
 
 
-	    mysqli_query(dbConnection(),"insert into users values(default,'$firstName','$lastName','$email','$password','$phone','$address');");
+	    mysqli_query(dbConnection(),"insert into users values(default,'$firstName','$lastName','$email','$password','$phone','$address',default);");
 	// add role    
 	   $result  = mysqli_query(dbConnection(),"select id from users where email = '$email'");
 	   $data    = mysqli_fetch_assoc($result);
@@ -126,6 +126,44 @@ if(isset($_POST['editCollctorButton'])){
 
 }
 
+//   change password
+if(isset($_POST['changePasswordButton'])){
+	
+	$oldPassword       = $_POST['oldPassword'];
+	$confirmPassword   = $_POST['confirmPassword'];
+	session_start();
+    $userData          = $_SESSION['userData'];
+    $email             = $userData['email'];
+
+    $hashedPassword    = password_hash($confirmPassword, PASSWORD_DEFAULT);
+
+	if(checkOldPassword($email,$oldPassword)){
+
+
+	   $result = mysqli_query(dbConnection(),"update users set password = '$hashedPassword' where email = '$email'");
+
+	if($result)
+	{  
+		session_start();
+	    $_SESSION["success"] = "done";
+	    header("location:../changePassword.php");
+
+	}
+
+
+ }
+ else{
+
+    	$formdata = array('message'   => 'Old password not correct' );
+
+    	session_start();
+    	$_SESSION["data"] = $formdata;
+    	header("location:../changePassword.php");
+    }
+
+
+}
+
 
 //   get all collectors
 function getAllCollectors(){
@@ -160,6 +198,22 @@ function checkUniqueEmail($email){
 	$result = mysqli_query(dbConnection(),"select email from users where email = '$email'");
 	$emaiArray = mysqli_fetch_assoc($result);
 	if(strcasecmp($emaiArray['email'],$email)==0){
+
+		return false;
+	}
+
+	return true;
+}
+
+//   check unique mails
+function checkOldPassword($email,$password){
+
+	$result = mysqli_query(dbConnection(),"select * from users where email = '$email'");
+	$emaiArray = mysqli_fetch_assoc($result);
+
+	$isValid = password_verify($password, $emaiArray['password']);
+	if(!$isValid){
+
 
 		return false;
 	}

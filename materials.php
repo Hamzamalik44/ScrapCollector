@@ -61,7 +61,7 @@ require_once 'database/materials.php';
                                                 </td>
                                                 
                                                 <td><a href="editMaterial.php?edit=<?php echo $value['id']; ?>" class="btn mb-1 btn-sm btn-outline-info">Edit</a>
-                                                    <button  onclick="deleteCollector(<?php echo $value['id']; ?>)" class="btn mb-1 btn-sm btn-outline-danger">Delete</button>
+                                                    <button  onclick="deleteCollector(<?php echo $value['id']; ?>)" class="btn mb-1 btn-sm btn-outline-danger">Deactivate</button>
                                                 </td>
                                             </tr>
                                            
@@ -139,7 +139,7 @@ function deleteCollector(id){
     }).then(function(isConfirm) {
       if (isConfirm) {
 
-        window.location.href="database/materials.php?delete="+id;
+        window.location.href="database/materials.php?deactivate="+id;
 
       } else {
         swal("Cancelled", "Your imaginary file is safe :)", "error");

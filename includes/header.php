@@ -170,11 +170,13 @@ require_once 'userData.php';
                                         <li>
                                             <a href="app-profile.html"><i class="icon-user"></i> <span>Profile</span></a>
                                         </li>
-
+                                        <li>
+                                            <a href="changePassword.php"><i class="icon-lock"></i> <span>Cnage Password</span></a>
+                                        </li>
                                         
                                         <hr class="my-2">
 
-                                        <li><a href="logout.php"><i class="icon-key"></i> <span>Logout</span></a></li>
+                                        <li><a href="logout.php"><i class="fa fa-sign-out "></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
                             </div>

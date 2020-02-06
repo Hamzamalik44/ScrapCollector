@@ -30,7 +30,7 @@
                                 <br>
                                     <form class="form-valide" action="database/materials.php" method="post" id="signup-form">
                                        <div class="form-group row ">
-                                            <label class="col-lg-4 col-form-label" >Nmae</label>
+                                            <label class="col-lg-4 col-form-label" >Name</label>
                                             <div class="col-lg-6">
                                                 <input type="text" class="form-control" id="name" name="name" placeholder="Name..">
                                                 <?php if(isset($_SESSION["data"])){?><label id="email-error" class="error" for="email"><?php echo $data['message']?></label><?php unset($_SESSION["data"]);}   ?>
