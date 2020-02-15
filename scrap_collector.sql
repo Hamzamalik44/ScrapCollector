@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 05, 2020 at 01:28 AM
+-- Generation Time: Feb 15, 2020 at 11:33 PM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.1.33
 
@@ -25,6 +25,19 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `admin_dashboard`
+-- (See below for the actual view)
+--
+CREATE TABLE `admin_dashboard` (
+`totalItems` bigint(21)
+,`totalUsers` bigint(21)
+,`pendingAppointments` bigint(21)
+,`purchasedMaterials` decimal(64,0)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `appointments`
 --
 
@@ -35,16 +48,6 @@ CREATE TABLE `appointments` (
   `userId` int(11) DEFAULT NULL,
   `collectorId` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `appointments`
---
-
-INSERT INTO `appointments` (`id`, `date`, `status`, `userId`, `collectorId`) VALUES
-(32, '2020-02-03', 3, 58, 58),
-(33, '2020-02-03', 3, 58, 58),
-(34, '2020-02-03', 3, 57, 57),
-(35, '2020-02-04', 3, 57, 57);
 
 -- --------------------------------------------------------
 
@@ -78,18 +81,6 @@ CREATE TABLE `collected_scrap` (
   `scrapCollectorId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `collected_scrap`
---
-
-INSERT INTO `collected_scrap` (`id`, `weight`, `date`, `price`, `scrapItemId`, `userId`, `scrapCollectorId`) VALUES
-(9, 5, '2020-02-03', 1500, 16, 58, 58),
-(10, 5, '2020-02-03', 1500, 16, 58, 58),
-(11, 112, '2020-02-03', 33600, 16, 57, 57),
-(12, 15, '2020-02-03', 6000, 17, 57, 57),
-(13, 25, '2020-02-03', 5000, 19, 57, 57),
-(14, 54, '2020-02-04', 10800, 19, 57, 57);
-
 -- --------------------------------------------------------
 
 --
@@ -114,16 +105,18 @@ CREATE TABLE `collector_report` (
 
 CREATE TABLE `item_types` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) DEFAULT NULL
+  `name` varchar(50) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `item_types`
 --
 
-INSERT INTO `item_types` (`id`, `name`) VALUES
-(35, 'Type2'),
-(38, 'Type1');
+INSERT INTO `item_types` (`id`, `name`, `status`) VALUES
+(42, 'Type1', 1),
+(43, 'Type2', 1),
+(44, 'Type3', 1);
 
 -- --------------------------------------------------------
 
@@ -191,17 +184,21 @@ CREATE TABLE `scrap_items` (
   `id` int(11) NOT NULL,
   `name` varchar(50) DEFAULT NULL,
   `price` int(11) DEFAULT NULL,
-  `itemTypeId` int(11) DEFAULT NULL
+  `itemTypeId` int(11) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `scrap_items`
 --
 
-INSERT INTO `scrap_items` (`id`, `name`, `price`, `itemTypeId`) VALUES
-(16, 'Material3', 300, 35),
-(17, 'Material4', 400, 35),
-(19, 'Material2', 200, 38);
+INSERT INTO `scrap_items` (`id`, `name`, `price`, `itemTypeId`, `status`) VALUES
+(23, 'Material1', 3000, 42, 1),
+(24, 'Material2', 1500, 42, 1),
+(25, 'Material4', 2000, 43, 1),
+(26, 'Material5', 4000, 43, 1),
+(27, 'Material6', 3000, 44, 1),
+(28, 'Material7', 2000, 44, 1);
 
 -- --------------------------------------------------------
 
@@ -212,8 +209,10 @@ INSERT INTO `scrap_items` (`id`, `name`, `price`, `itemTypeId`) VALUES
 CREATE TABLE `scrap_with_type` (
 `id` int(11)
 ,`name` varchar(50)
+,`materialStatus` tinyint(1)
 ,`price` int(11)
 ,`type` varchar(50)
+,`typeStatus` tinyint(1)
 );
 
 -- --------------------------------------------------------
@@ -239,6 +238,20 @@ INSERT INTO `status` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `total_scrap_collected`
+-- (See below for the actual view)
+--
+CREATE TABLE `total_scrap_collected` (
+`date` date
+,`weight` int(11)
+,`price` int(11)
+,`name` varchar(50)
+,`id` int(11)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -249,17 +262,19 @@ CREATE TABLE `users` (
   `email` varchar(100) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `phone` varchar(50) DEFAULT NULL,
-  `address` varchar(200) DEFAULT NULL
+  `address` varchar(200) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `image` varchar(255) DEFAULT 'defaultImage/defaultUser.png'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `firstName`, `lastName`, `email`, `password`, `phone`, `address`) VALUES
-(56, 'Hamza', 'Malik', 'hamza@gmail.com', '$2y$10$FsM4ArpgU1bknN4XkEw66uVdxZ2mpF1gGNGdIIY.HicqJn/TM6UXa', '03152439425', 'abc'),
-(57, 'Hamza', 'Malik', 'collector@gmail.com', '$2y$10$KdJyu4CbzVRDkXzCOiM3..KAYTotrKfJ5g6ZLWhMaPX1sdWsciEqu', '03152439425', 'abc'),
-(58, 'Syed', 'asad', 'collector2@gmail.com', '$2y$10$HPC8kd8jMMIqPXlR0sWVJ.QGDk.5q1Cjunosw/IUDX/MQ4MDoUpJK', '03152439425', 'abc');
+INSERT INTO `users` (`id`, `firstName`, `lastName`, `email`, `password`, `phone`, `address`, `status`, `image`) VALUES
+(68, 'Hamza', 'Malik', 'admin@gmail.com', '$2y$10$aQLqsU3UESeSdFHIEw3V2eqFIiQpHr7BVclbEw5q8W1VGAqXq5akS', '03152439425', 'abc', 1, 'defaultImage/defaultUser.png'),
+(69, 'Hamza', 'Malik', 'user@gmail.com', '$2y$10$h6dLDm6ZwfMkhxa.SHxOjetIiWZgSaRkkOYWvJMQRDxGPow1.cYZe', '03152439425', 'abc', 1, 'defaultImage/defaultUser.png'),
+(70, 'Jhon', 'Smith', 'collector@gmail.com', '$2y$10$LGuo2/W62elRET2JxyfzkOMCujy3DndjacmU5X6EbsySwQNTU7r0i', '03152439425', 'abc', 1, 'defaultImage/defaultUser.png');
 
 -- --------------------------------------------------------
 
@@ -294,9 +309,9 @@ CREATE TABLE `user_roles` (
 --
 
 INSERT INTO `user_roles` (`id`, `userId`, `roleId`) VALUES
-(53, 56, 4),
-(54, 57, 3),
-(55, 58, 3);
+(77, 68, 2),
+(78, 69, 4),
+(79, 70, 3);
 
 -- --------------------------------------------------------
 
@@ -312,8 +327,19 @@ CREATE TABLE `user_with_role` (
 ,`password` varchar(255)
 ,`phone` varchar(50)
 ,`address` varchar(200)
+,`status` tinyint(1)
+,`image` varchar(255)
 ,`roleName` varchar(50)
 );
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `admin_dashboard`
+--
+DROP TABLE IF EXISTS `admin_dashboard`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `admin_dashboard`  AS  select (select count(0) from `scrap_items` where `scrap_items`.`status` = 1) AS `totalItems`,(select count(0) from `users` where `users`.`status` = 1) AS `totalUsers`,(select count(0) from `appointments` where `appointments`.`status` = 1) AS `pendingAppointments`,(select sum(`collected_scrap`.`weight`) * sum(`collected_scrap`.`price`) from `collected_scrap` where extract(month from `collected_scrap`.`date`) = extract(month from curdate())) AS `purchasedMaterials` ;
 
 -- --------------------------------------------------------
 
@@ -358,7 +384,16 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `scrap_with_type`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `scrap_with_type`  AS  select `s`.`id` AS `id`,`s`.`name` AS `name`,`s`.`price` AS `price`,`i`.`name` AS `type` from (`scrap_items` `s` join `item_types` `i` on(`i`.`id` = `s`.`itemTypeId`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `scrap_with_type`  AS  select `s`.`id` AS `id`,`s`.`name` AS `name`,`s`.`status` AS `materialStatus`,`s`.`price` AS `price`,`i`.`name` AS `type`,`i`.`status` AS `typeStatus` from (`scrap_items` `s` join `item_types` `i` on(`i`.`id` = `s`.`itemTypeId`)) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `total_scrap_collected`
+--
+DROP TABLE IF EXISTS `total_scrap_collected`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `total_scrap_collected`  AS  select `c`.`date` AS `date`,`c`.`weight` AS `weight`,`c`.`price` AS `price`,`s`.`name` AS `name`,`s`.`id` AS `id` from (`collected_scrap` `c` join `scrap_items` `s` on(`c`.`scrapItemId` = `s`.`id`)) ;
 
 -- --------------------------------------------------------
 
@@ -376,7 +411,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `user_with_role`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `user_with_role`  AS  select `u`.`id` AS `id`,`u`.`firstName` AS `firstName`,`u`.`lastName` AS `lastName`,`u`.`email` AS `email`,`u`.`password` AS `password`,`u`.`phone` AS `phone`,`u`.`address` AS `address`,`r`.`roleName` AS `roleName` from ((`users` `u` join `user_roles` `ur` on(`u`.`id` = `ur`.`userId`)) join `roles` `r` on(`ur`.`roleId` = `r`.`id`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `user_with_role`  AS  select `u`.`id` AS `id`,`u`.`firstName` AS `firstName`,`u`.`lastName` AS `lastName`,`u`.`email` AS `email`,`u`.`password` AS `password`,`u`.`phone` AS `phone`,`u`.`address` AS `address`,`u`.`status` AS `status`,`u`.`image` AS `image`,`r`.`roleName` AS `roleName` from ((`users` `u` join `user_roles` `ur` on(`u`.`id` = `ur`.`userId`)) join `roles` `r` on(`ur`.`roleId` = `r`.`id`)) ;
 
 --
 -- Indexes for dumped tables
@@ -447,19 +482,19 @@ ALTER TABLE `user_roles`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `collected_scrap`
 --
 ALTER TABLE `collected_scrap`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `item_types`
 --
 ALTER TABLE `item_types`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -471,7 +506,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `scrap_items`
 --
 ALTER TABLE `scrap_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `status`
@@ -483,13 +518,13 @@ ALTER TABLE `status`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `user_roles`
 --
 ALTER TABLE `user_roles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- Constraints for dumped tables
