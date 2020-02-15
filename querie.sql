@@ -67,3 +67,10 @@ CREATE TABLE scrap_items(
     itemTypeId int,FOREIGN KEY(itemTypeId) REFERENCES item_types(id)
     
 );
+
+
+CREATE VIEW adminDashboard as 
+SELECT (SELECT COUNT(*) FROM scrap_items WHERE status = 1) as totalItems,
+(SELECT COUNT(*) FROM users WHERE status = 1) as totalUsers,
+(SELECT COUNT(*) FROM appointments WHERE status = 1) as pendingAppointments,
+(SELECT SUM(weight)*SUM(price) FROM collected_scrap WHERE EXTRACT(MONTH FROM date) = EXTRACT(MONTH  FROM CURRENT_DATE())) as purchasedMaterials

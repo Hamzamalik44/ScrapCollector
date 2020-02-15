@@ -7,6 +7,13 @@
 
  ?>
 
+  <?php 
+if($userData['roleName']!='User'){ 
+
+    echo "<script>window.location.href='index.php'</script>";
+}
+ ?>
+
 
         <!--**********************************
             Content body start

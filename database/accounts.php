@@ -319,8 +319,10 @@ if($_FILES['image']['name']!=null){
 
 	    chdir('../uploadImages'); 
 
-	    echo $data['image'];
-        echo unlink($data['image']);
+	       if(!$data['image']='defaultImage/defaultUser.png'){
+
+              unlink($data['image']);
+	       }
 
 		}
 

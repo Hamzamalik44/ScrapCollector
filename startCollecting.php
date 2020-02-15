@@ -14,7 +14,12 @@ if(isset($_GET['userId'])){
 }
  ?>
 
+ <?php 
+if($userData['roleName']!='Scrap collector'){ 
 
+    echo "<script>window.location.href='index.php'</script>";
+}
+ ?>
         <!--**********************************
             Content body start
         ***********************************-->

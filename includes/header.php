@@ -149,13 +149,14 @@ require_once 'userData.php';
                         </a>
 
                     </li>
-
+                    <?php if($userData['roleName']=='Admin'){ ?>
                     <li>
                         <a class="" href="collectors.php" aria-expanded="false">
                             <i class="icon-user menu-icon"></i><span class="nav-text">Collectors</span>
                         </a>
 
                     </li>
+                <?php } ?>
                     <li>
                         <a class="" href="materialTypes.php" aria-expanded="false">
                             <i class="fa fa-recycle menu-icon"></i><span class="nav-text">Material Types</span>
@@ -168,38 +169,52 @@ require_once 'userData.php';
                         </a>
 
                     </li>
+                    <?php if($userData['roleName']=='Admin'){ ?>
                     <li>
                         <a class="" href="collectedScrap.php" aria-expanded="false">
                             <i class="fa fa-archive"></i><span class="nav-text">Collected Scrap</span>
                         </a>
 
                     </li>
+                <?php } ?>
+                    <?php if($userData['roleName']=='User'){ ?>
                     <li>
                         <a class="" href="appointments.php" aria-expanded="false">
                             <i class="fa fa-calendar menu-icon"></i><span class="nav-text">Appointment</span>
                         </a>
 
                     </li>
+                <?php } ?>
+                <?php if($userData['roleName']=='Scrap collector'){ ?>
                     <li>
                         <a class="" href="collectorAppointments.php" aria-expanded="false">
                             <i class="fa fa-calendar menu-icon"></i><span class="nav-text">Appointments</span>
                         </a>
 
                     </li>
+                <?php } ?>
+                    <?php if($userData['roleName']=='Admin'){ ?>
                       <li>
                         <a class="" href="adminAppointments.php" aria-expanded="false">
                             <i class="fa fa-calendar menu-icon"></i><span class="nav-text">Appointments</span>
                         </a>
 
                     </li>
+                <?php } ?>
                     <li>
+                        <?php if($userData['roleName']=='Admin' || $userData['roleName']=='User'){ ?>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="fa fa-file menu-icon"></i> <span class="nav-text">Reports</span>
                         </a>
+                    <?php } ?>
                         <ul aria-expanded="false">
+                            <?php if($userData['roleName']=='User'){ ?>
                             <li><a href="userSellingReport.php">Selling's</a></li>
+                        <?php } ?>
+                            <?php if($userData['roleName']=='Admin'){ ?>
                              <li><a href="userReport.php">User's</a></li>
                               <li><a href="collectorReport.php">Collector's</a></li>
+                          <?php } ?>
                         </ul>
                     </li>
                 </ul>

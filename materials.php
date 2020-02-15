@@ -21,6 +21,7 @@ require_once 'database/materials.php';
 
  $data = getLimitedMaterial($startingPageNo,$resultPerPage);
  ?>
+
         <!--**********************************
             Content body start
         ***********************************-->
@@ -38,7 +39,10 @@ require_once 'database/materials.php';
                       <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Material List
-                                    <a href="addMaterials.php" class="btn mb-1 btn-primary float-right">Add New</a> </h4>
+                                    <?php if($userData['roleName']=='Admin'){ ?>
+                                    <a href="addMaterials.php" class="btn mb-1 btn-primary float-right">Add New</a>
+                                <?php } ?>
+                                     </h4>
                                     <br>
                                     <hr>
                                 <div class="table-responsive">
@@ -48,7 +52,9 @@ require_once 'database/materials.php';
                                                 <th>Name</th>
                                                 <th>Price</th>
                                                 <th>Type</th>
+                                                <?php if($userData['roleName']=='Admin'){ ?>
                                                 <th>Actions</th>
+                                            <?php } ?>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -59,10 +65,11 @@ require_once 'database/materials.php';
                                                 <td><?php echo $value['price']; ?>
                                                 <td><?php echo $value['type']; ?>
                                                 </td>
-                                                
+                                                <?php if($userData['roleName']=='Admin'){ ?>
                                                 <td><a href="editMaterial.php?edit=<?php echo $value['id']; ?>" class="btn mb-1 btn-sm btn-outline-info">Edit</a>
                                                     <button  onclick="deleteCollector(<?php echo $value['id']; ?>)" class="btn mb-1 btn-sm btn-outline-danger">Deactivate</button>
                                                 </td>
+                                            <?php } ?>
                                             </tr>
                                            
                                            <?php }}
@@ -86,10 +93,10 @@ require_once 'database/materials.php';
                                             </li>
                                             <?php for ($page=1; $page<=$numberOfPages ;$page++) { ?>
                                             <li class="page-item <?php echo ($_GET['page']==$page)?'active':'' ?>">
-                                                <a class="page-link" href="materialTypes.php?page=<?php echo $page ?>"><?php echo $page ?></a>
+                                                <a class="page-link" href="materials.php?page=<?php echo $page ?>"><?php echo $page ?></a>
                                             </li>
                                             <?php } ?>
-                                            <li class="page-item <?php echo ($_GET['page']==$page-1)?'disabled':'' ?>"><a class="page-link" href="materialTypes.php?page=<?php echo $_GET['page']+1 ?>">Next</a>
+                                            <li class="page-item <?php echo ($_GET['page']==$page-1)?'disabled':'' ?>"><a class="page-link" href="materials.php?page=<?php echo $_GET['page']+1 ?>">Next</a>
                                             </li>
                                             
                                         </ul>

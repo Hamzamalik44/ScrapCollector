@@ -28,6 +28,13 @@ $data = getCollectorById($_GET['userId']);
 .dt-buttons {
     margin-top: 10px;
  </style>
+
+  <?php 
+if($userData['roleName']!='Admin'){ 
+
+    echo "<script>window.location.href='index.php'</script>";
+}
+ ?>
         <!--**********************************
             Content body start
         ***********************************-->

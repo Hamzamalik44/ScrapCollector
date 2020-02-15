@@ -85,7 +85,7 @@ $data = getUsersReportById($userData['id']);
                                            
                                            <?php }}
                                            else{ ?>
-                                            <td colspan="5" style="text-align: center;" ><h4>No Record Found</h4></td>
+                                            <td colspan="6" style="text-align: center;" ><h4>No Record Found</h4></td>
                                            <?php } ?>
                                         </tbody>
                                         

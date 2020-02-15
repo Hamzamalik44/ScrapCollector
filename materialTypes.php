@@ -38,7 +38,11 @@ require_once 'database/materialTypes.php';
                       <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Material Types List
-                                    <a href="addMaterialTypes.php" class="btn mb-1 btn-primary float-right">Add New</a> </h4>
+                                    <?php if($userData['roleName']=='Admin'){ ?>
+                                    <a href="addMaterialTypes.php" class="btn mb-1 btn-primary float-right">Add New</a>
+
+                                <?php } ?>
+                                     </h4>
                                     <br>
                                     <hr>
                                 <div class="table-responsive">
@@ -46,7 +50,9 @@ require_once 'database/materialTypes.php';
                                         <thead>
                                             <tr>
                                                 <th>Name</th>
+                                                <?php if($userData['roleName']=='Admin'){ ?>
                                                 <th>Actions</th>
+                                            <?php } ?>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -56,9 +62,11 @@ require_once 'database/materialTypes.php';
                                                 <td><?php echo $value['name']; ?>
                                                 </td>
                                                 
+                                                <?php if($userData['roleName']=='Admin'){ ?>
                                                 <td><a href="editMaterialTypes.php?edit=<?php echo $value['id']; ?>" class="btn mb-1 btn-sm btn-outline-info">Edit</a>
                                                     <button  onclick="deleteCollector(<?php echo $value['id']; ?>)" class="btn mb-1 btn-sm btn-outline-danger">Deactivate</button>
                                                 </td>
+                                            <?php } ?>
                                             </tr>
                                            
                                            <?php }}

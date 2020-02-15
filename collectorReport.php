@@ -13,6 +13,13 @@ $data = getAllCollectorReport();
  ?>
 
 
+ <?php 
+if($userData['roleName']!='Admin'){ 
+
+    echo "<script>window.location.href='index.php'</script>";
+}
+ ?>
+
  <style>
      
      input[type="search"]{

@@ -1,3 +1,5 @@
+
+
 <?php 
   
   require_once 'includes/header.php';
@@ -20,6 +22,14 @@ require_once 'database/accounts.php';
  $startingPageNo = ($page-1)*$resultPerPage;
 
  $data = getLimitedCollectors($startingPageNo,$resultPerPage);
+ ?>
+
+
+  <?php 
+if($userData['roleName']!='Admin'){ 
+
+    echo "<script>window.location.href='index.php'</script>";
+}
  ?>
         <!--**********************************
             Content body start

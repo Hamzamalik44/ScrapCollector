@@ -8,7 +8,12 @@
 
  ?>
 
+ <?php 
+if($userData['roleName']!='Admin'){ 
 
+    echo "<script>window.location.href='index.php'</script>";
+}
+ ?>
         <!--**********************************
             Content body start
         ***********************************-->

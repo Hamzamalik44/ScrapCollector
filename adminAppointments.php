@@ -6,6 +6,13 @@
 require_once 'database/appointments.php';
 require_once 'database/materials.php';
  ?>
+
+  <?php 
+if($userData['roleName']!='Admin'){ 
+
+    echo "<script>window.location.href='index.php'</script>";
+}
+ ?>
         <!--**********************************
             Content body start
         ***********************************-->

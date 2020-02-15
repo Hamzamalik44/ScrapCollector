@@ -3,7 +3,13 @@
   require_once 'includes/header.php';
 @$data = $_SESSION["data"];
 
+ ?>
 
+ <?php 
+if($userData['roleName']!='Admin'){ 
+
+    echo "<script>window.location.href='index.php'</script>";
+}
  ?>
 
 
