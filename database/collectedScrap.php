@@ -38,7 +38,6 @@ for ($i=0; $i < count($_SESSION['cardData']); $i++){
 		        $_SESSION["success"] = "done";
 		        header("location:../collectorAppointments.php");
 		}
-	
 
 	
 }

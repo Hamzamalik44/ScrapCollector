@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 15, 2020 at 11:33 PM
+-- Generation Time: Feb 21, 2020 at 11:18 PM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.1.33
 
@@ -32,7 +32,7 @@ CREATE TABLE `admin_dashboard` (
 `totalItems` bigint(21)
 ,`totalUsers` bigint(21)
 ,`pendingAppointments` bigint(21)
-,`purchasedMaterials` decimal(64,0)
+,`purchasedMaterials` decimal(42,0)
 );
 
 -- --------------------------------------------------------
@@ -48,6 +48,16 @@ CREATE TABLE `appointments` (
   `userId` int(11) DEFAULT NULL,
   `collectorId` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `appointments`
+--
+
+INSERT INTO `appointments` (`id`, `date`, `status`, `userId`, `collectorId`) VALUES
+(43, '2020-02-16', 3, 69, 70),
+(44, '2020-02-18', 3, 71, 70),
+(45, '2020-02-18', 3, 72, 70),
+(46, '2020-02-19', 3, 69, 70);
 
 -- --------------------------------------------------------
 
@@ -80,6 +90,20 @@ CREATE TABLE `collected_scrap` (
   `userId` int(11) DEFAULT NULL,
   `scrapCollectorId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `collected_scrap`
+--
+
+INSERT INTO `collected_scrap` (`id`, `weight`, `date`, `price`, `scrapItemId`, `userId`, `scrapCollectorId`) VALUES
+(23, 2, '2020-02-16', 3000, 25, 69, 70),
+(24, 5, '2020-02-16', 20000, 26, 69, 70),
+(25, 10, '2020-02-18', 30000, 23, 71, 70),
+(26, 5, '2020-02-18', 10000, 25, 71, 70),
+(28, 10, '2020-02-19', 15000, 24, 72, 70),
+(29, 5, '2020-02-19', 20000, 26, 72, 70),
+(30, 5, '2020-02-20', 20000, 26, 69, 70),
+(31, 10, '2020-02-20', 20000, 25, 69, 70);
 
 -- --------------------------------------------------------
 
@@ -272,9 +296,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `firstName`, `lastName`, `email`, `password`, `phone`, `address`, `status`, `image`) VALUES
-(68, 'Hamza', 'Malik', 'admin@gmail.com', '$2y$10$aQLqsU3UESeSdFHIEw3V2eqFIiQpHr7BVclbEw5q8W1VGAqXq5akS', '03152439425', 'abc', 1, 'defaultImage/defaultUser.png'),
+(68, 'Hamza', 'Malik', 'admin@gmail.com', '$2y$10$aQLqsU3UESeSdFHIEw3V2eqFIiQpHr7BVclbEw5q8W1VGAqXq5akS', '03152439425', 'abc', 1, '5e49757bc713b11.png'),
 (69, 'Hamza', 'Malik', 'user@gmail.com', '$2y$10$h6dLDm6ZwfMkhxa.SHxOjetIiWZgSaRkkOYWvJMQRDxGPow1.cYZe', '03152439425', 'abc', 1, 'defaultImage/defaultUser.png'),
-(70, 'Jhon', 'Smith', 'collector@gmail.com', '$2y$10$LGuo2/W62elRET2JxyfzkOMCujy3DndjacmU5X6EbsySwQNTU7r0i', '03152439425', 'abc', 1, 'defaultImage/defaultUser.png');
+(70, 'Jhon', 'Smith', 'collector@gmail.com', '$2y$10$LGuo2/W62elRET2JxyfzkOMCujy3DndjacmU5X6EbsySwQNTU7r0i', '03152439425', 'abc', 1, 'defaultImage/defaultUser.png'),
+(71, 'Hamza', 'Malik', 'admin@gmail.com\\', '$2y$10$aQLqsU3UESeSdFHIEw3V2eqFIiQpHr7BVclbEw5q8W1VGAqXq5akS', '03152439425', 'abc', 1, 'defaultImage/defaultUser.png'),
+(72, 'Abdullah', 'arif', 'Abdullah@localhost.com', '$2y$10$sWYTH125U70LwvJDH6df3Ot6/MdYiomRO.hzOoQRmNCyheHGN4hfq', '03003544007', 'abc', 1, '5e4bb9e56a77511.png'),
+(73, 'Hamza', 'Malik', 'hamza.malik3498hm@gmail.com', '$2y$10$h2k1CZ1RyXM2SaXLIuYecu0N/F5cHBBPSvlGzRM7bio5pw499jlr2', '03152439425', 'abc', 1, 'defaultImage/defaultUser.png');
 
 -- --------------------------------------------------------
 
@@ -311,7 +338,10 @@ CREATE TABLE `user_roles` (
 INSERT INTO `user_roles` (`id`, `userId`, `roleId`) VALUES
 (77, 68, 2),
 (78, 69, 4),
-(79, 70, 3);
+(79, 70, 3),
+(80, 71, 2),
+(81, 72, 4),
+(82, 73, 4);
 
 -- --------------------------------------------------------
 
@@ -339,7 +369,7 @@ CREATE TABLE `user_with_role` (
 --
 DROP TABLE IF EXISTS `admin_dashboard`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `admin_dashboard`  AS  select (select count(0) from `scrap_items` where `scrap_items`.`status` = 1) AS `totalItems`,(select count(0) from `users` where `users`.`status` = 1) AS `totalUsers`,(select count(0) from `appointments` where `appointments`.`status` = 1) AS `pendingAppointments`,(select sum(`collected_scrap`.`weight`) * sum(`collected_scrap`.`price`) from `collected_scrap` where extract(month from `collected_scrap`.`date`) = extract(month from curdate())) AS `purchasedMaterials` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `admin_dashboard`  AS  select (select count(0) from `scrap_items` where `scrap_items`.`status` = 1) AS `totalItems`,(select count(0) from `users` where `users`.`status` = 1) AS `totalUsers`,(select count(0) from `appointments` where `appointments`.`status` = 1) AS `pendingAppointments`,(select sum(`collected_scrap`.`weight` * `collected_scrap`.`price`) from `collected_scrap` where extract(month from `collected_scrap`.`date`) = extract(month from curdate())) AS `purchasedMaterials` ;
 
 -- --------------------------------------------------------
 
@@ -464,7 +494,8 @@ ALTER TABLE `status`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indexes for table `user_roles`
@@ -482,13 +513,13 @@ ALTER TABLE `user_roles`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `collected_scrap`
 --
 ALTER TABLE `collected_scrap`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `item_types`
@@ -518,13 +549,13 @@ ALTER TABLE `status`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `user_roles`
 --
 ALTER TABLE `user_roles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- Constraints for dumped tables

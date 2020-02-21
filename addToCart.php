@@ -59,7 +59,11 @@ if(isset($_GET['remove'])){
      	if($data['materialName']==$materialName){
 
      		unset($_SESSION['cardData'][$i]);
+        for ($i=0; $i < count($_SESSION['cardData']); $i++){
 
+          $_SESSION['cardData'][$i]=$_SESSION['cardData'][$i];
+
+        }        
      		calcultateTotalAmount();
      		     break;
 

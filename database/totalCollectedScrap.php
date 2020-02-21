@@ -5,7 +5,7 @@ require_once 'dbConnection.php';
 
 //   get all users reports
 function getTotalCollectedScrap(){
-	$result  = mysqli_query(dbConnection(),"select date, sum(weight)as weight,name,sum(price)as price from  total_scrap_collected");
+	$result  = mysqli_query(dbConnection(),"select date, sum(weight)as weight,name,sum(price*weight)as price from  total_scrap_collected");
 	return $result;
 }
 

@@ -42,7 +42,7 @@
                                 <h3 class="card-title text-white">Purchased Materials</h3>
                                 <div class="d-inline-block">
                                     <h2 class="text-white">Rs <?php echo $data['purchasedMaterials']; ?></h2>
-                                    <p class="text-white mb-0"><?php echo date("M - D - Y "); ?></p>
+                                    <p class="text-white mb-0"></p>
                                 </div>
                                 <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
                             </div>

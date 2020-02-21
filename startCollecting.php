@@ -89,14 +89,14 @@ if($userData['roleName']!='Scrap collector'){
                                 </div>
                             </div>
 
-<?php if(@count($_SESSION['cardData'])>0){ ?>
+<?php  if(@count($_SESSION['cardData'])>0){ ?>
                               <div class="card">
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table header-border ">
                                         <thead>
                                             <tr>
-                                                <th>Material</th>
+                                                <th>Material </th>
                                                 <th>Weight</th>
                                                 <th>Price Per Kg</th>
                                                 <th>Total Price</th>
@@ -107,7 +107,13 @@ if($userData['roleName']!='Scrap collector'){
                                           
                                           <?php   for ($i=0; $i < count($_SESSION['cardData']); $i++) { ?>
                                                             <tr>
-                                          <?php            $data =  $_SESSION['cardData'][$i];  ?>
+                                          <?php             
+
+                                                            
+                                                                $data =  $_SESSION['cardData'][$i];
+                                                            
+                                                            if($data!=null){
+                                           ?>
 
                                                             
                                                             <td><?php echo $data['materialName'];?></td>
@@ -117,7 +123,7 @@ if($userData['roleName']!='Scrap collector'){
                                                             <td><a href="addToCart.php?remove=<?php echo $data['materialName'];?>"  class="btn mb-1 btn-sm btn-outline-danger">Remove</a></td>
                                                             
                                                             </tr>
-                                          <?php } ?>
+                                          <?php }} ?>
 
                                          
                                         </tbody>        

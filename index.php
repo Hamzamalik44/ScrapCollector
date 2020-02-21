@@ -1312,7 +1312,7 @@ require_once 'redirctToDashboard.php';
 
                 <div class="modal-footer text-center">
 
-                    <a id="forgotPasswordButton" style="color: #7571f9;" >Forgot your password </a>
+
 
 
                 </div>
